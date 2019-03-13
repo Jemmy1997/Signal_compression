@@ -22,7 +22,7 @@ function varargout = matlab(varargin)
 
 % Edit the above text to modify the response to help matlab
 
-% Last Modified by GUIDE v2.5 13-Mar-2019 15:56:37
+% Last Modified by GUIDE v2.5 13-Mar-2019 18:16:01
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -73,19 +73,19 @@ function varargout = matlab_OutputFcn(hObject, eventdata, handles)
 varargout{1} = handles.output;
 
 
-% --- Executes on selection change in time_domain.
-function time_domain_Callback(hObject, eventdata, handles)
-% hObject    handle to time_domain (see GCBO)
+% --- Executes on selection change in compressionType.
+function compressionType_Callback(hObject, eventdata, handles)
+% hObject    handle to compressionType (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: contents = cellstr(get(hObject,'String')) returns time_domain contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from time_domain
+% Hints: contents = cellstr(get(hObject,'String')) returns compressionType contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from compressionType
 
 
 % --- Executes during object creation, after setting all properties.
-function time_domain_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to time_domain (see GCBO)
+function compressionType_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to compressionType (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -96,26 +96,29 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in pushbutton1.
-function pushbutton1_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton1 (see GCBO)
+% --- Executes on button press in browse.
+function browse_Callback(hObject, eventdata, handles)
+% hObject    handle to browse (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+[fileName,pathName] = uigetfile({'*.wav; *.mat'}, 'Open');
+address = strcat(pathName, fileName);
+set(handles.path, 'String', address);
+guidata(hObject, handles);
+
+% --- Executes on selection change in transform.
+function transform_Callback(hObject, eventdata, handles)
+% hObject    handle to transform (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-
-% --- Executes on selection change in d.
-function d_Callback(hObject, eventdata, handles)
-% hObject    handle to d (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns d contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from d
+% Hints: contents = cellstr(get(hObject,'String')) returns transform contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from transform
 
 
 % --- Executes during object creation, after setting all properties.
-function d_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to d (see GCBO)
+function transform_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to transform (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -127,22 +130,45 @@ end
 
 
 
-function edit2_Callback(hObject, eventdata, handles)
-% hObject    handle to edit2 (see GCBO)
+function ratio_Callback(hObject, eventdata, handles)
+% hObject    handle to ratio (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-% Hints: get(hObject,'String') returns contents of edit2 as text
-%        str2double(get(hObject,'String')) returns contents of edit2 as a double
+% Hints: get(hObject,'String') returns contents of ratio as text
+%        str2double(get(hObject,'String')) returns contents of ratio as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function edit2_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to edit2 (see GCBO)
+function ratio_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to ratio (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
 % Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on selection change in signalType.
+function signalType_Callback(hObject, eventdata, handles)
+% hObject    handle to signalType (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns signalType contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from signalType
+
+
+% --- Executes during object creation, after setting all properties.
+function signalType_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to signalType (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
