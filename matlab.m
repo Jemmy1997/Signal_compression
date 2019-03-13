@@ -101,9 +101,10 @@ function browse_Callback(hObject, eventdata, handles)
 % hObject    handle to browse (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-[fileName,pathName] = uigetfile({'*.wav; *.mat'}, 'Open');
+[fileName,pathName] = uigetfile({'*.wav; *.mat; *.xlsx'}, 'Open');
 address = strcat(pathName, fileName);
 set(handles.path, 'String', address);
+compress
 guidata(hObject, handles);
 
 % --- Executes on selection change in transform.
