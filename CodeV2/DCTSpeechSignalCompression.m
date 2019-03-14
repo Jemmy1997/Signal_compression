@@ -2,8 +2,10 @@
 % To hear, type soundsc(her,fs), pause(1), soundsc(him,fs)
 [y,fs]=audioread('Windows XP Startup.wav');
 %% Ult signal
-% x=load('ult_sig.mat');
-% x=x.ult_sig;
+ %y=load('ult_sig.mat');
+ %y=x.ult_sig;
+%% MR
+% y = xlsread('MRS.xlsx');
 %% Use the discrete cosine transform to compress the female voice signal. 
 ... Decompose the signal into DCT basis vectors.
 ...There are as many terms in the decomposition as there are samples in the signal. 
@@ -33,7 +35,7 @@ xpc = need/length(X)*100;
 ...Plot the original signal, its reconstruction, and the difference between the two.
 X(ind(need+1:end)) = 0;
 filename=strcat('CH',num2str(i),'.mat');
-[C,IC,Size]=code(X,filename,0.00001);
+[C,IC,Size]=code(X,filename,0.0001);
 comp=comp+Size;
 X=decode(C,IC);
 xx=idct(X);
