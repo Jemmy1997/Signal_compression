@@ -78,30 +78,30 @@ function select_Callback(hObject, eventdata, handles)
 % hObject    handle to select (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-filename=uigetfile({'*.xlsx'},'Select an Audio File');
+filename=uigetfile({'*.mat'},'Select an Audio File');
 fileinfo = dir(filename);
 SIZE = fileinfo.bytes;
 Size = SIZE/1024;
 
-num = xlsread(filename);
-x=num;
+signal = load(filename);
+x = signal.val(1,:);
 xleng = length(x);
 set(handles.original_size,'string',Size);
 axes(handles.axes1)
 plot(x)
 set(handles.axes1,'XMinorTick','on')
 grid on
-wname = 'sym6';
+wname = 'db1';
 level=3;
 [C,L] = wavedec(x,level, wname);
 [thr,sorh,keepapp] = ddencmp('cmp','wv',x);
-thr=thr*10; %lossless
-%thr = thr*10^5; %lossy
+thr=thr*10^6;   %%%%%%%6 lossy
+% thr = thr^2;%%%%1 lossless
 [XC,CXC,LXC,PERF0,PERFL2] = wdencmp('gbl',C, L, wname,level,thr,sorh,keepapp);
 C=CXC;
 L=LXC;
-xlswrite('compressed.xlsx',C);
-fileinfo2 = dir('compressed.xlsx');
+save ('compressed.mat','C');
+fileinfo2 = dir('compressed.mat');
 SIZE2 = fileinfo2.bytes;
 Size2 = SIZE2/1024;
 axes(handles.axes3)
@@ -113,7 +113,8 @@ CompressionRatio = Size/Size2;
 set(handles.compression_ratio,'string',CompressionRatio)
 
 xd = waverec(C,L,wname);
-xlswrite('output1.xlsx',xd)
+disp(size(xd))
+save('output1.mat','xd');
 set(handles.compressed_size,'string',Size2)
 axes(handles.axes2)
 plot(xd)

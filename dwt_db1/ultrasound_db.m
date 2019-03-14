@@ -84,7 +84,7 @@ SIZE = fileinfo.bytes;
 Size = SIZE/1024;
 
 signal = load(filename);
-x = signal.val(1,:);
+x = signal.ult_sig;
 xleng = length(x);
 set(handles.original_size,'string',Size);
 axes(handles.axes1)
@@ -95,8 +95,8 @@ wname = 'db1';
 level=3;
 [C,L] = wavedec(x,level, wname);
 [thr,sorh,keepapp] = ddencmp('cmp','wv',x);
-thr=thr*10^6;   %%%%%%%6 lossy
-% thr = thr^2;%%%%1 lossless
+thr=0; %%%% lossles
+%thr = thr*10^5; %%% lossy 
 [XC,CXC,LXC,PERF0,PERFL2] = wdencmp('gbl',C, L, wname,level,thr,sorh,keepapp);
 C=CXC;
 L=LXC;
@@ -113,7 +113,6 @@ CompressionRatio = Size/Size2;
 set(handles.compression_ratio,'string',CompressionRatio)
 
 xd = waverec(C,L,wname);
-disp(size(xd))
 save('output1.mat','xd');
 set(handles.compressed_size,'string',Size2)
 axes(handles.axes2)

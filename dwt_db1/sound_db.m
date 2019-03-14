@@ -78,13 +78,11 @@ function select_Callback(hObject, eventdata, handles)
 % hObject    handle to select (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-filename=uigetfile({'*.mat'},'Select an Audio File');
-fileinfo = dir(filename);
+file_name=uigetfile({'*.wav'},'Select an Audio File');
+fileinfo = dir(file_name);
 SIZE = fileinfo.bytes;
 Size = SIZE/1024;
-
-signal = load(filename);
-x = signal.val(1,:);
+[x,Fs] = audioread(file_name);
 xleng = length(x);
 set(handles.original_size,'string',Size);
 axes(handles.axes1)
@@ -93,15 +91,15 @@ set(handles.axes1,'XMinorTick','on')
 grid on
 wname = 'db1';
 level=3;
-[C,L] = wavedec(x,level, wname);
-[thr,sorh,keepapp] = ddencmp('cmp','wv',x);
-thr=thr*10^6;   %%%%%%%6 lossy
-% thr = thr^2;%%%%1 lossless
+[C,L] = wavedec(x(:,1),level, wname); %%%%
+[thr,sorh,keepapp] = ddencmp('cmp','wv',x(:,1)); %%%%
+thr=thr*10^2;
 [XC,CXC,LXC,PERF0,PERFL2] = wdencmp('gbl',C, L, wname,level,thr,sorh,keepapp);
 C=CXC;
 L=LXC;
+
 save ('compressed.mat','C');
-fileinfo2 = dir('compressed.mat');
+fileinfo2 = dir('compressed.wav');
 SIZE2 = fileinfo2.bytes;
 Size2 = SIZE2/1024;
 axes(handles.axes3)
@@ -110,17 +108,22 @@ set(handles.axes3,'XMinorTick','on')
 grid on
 
 CompressionRatio = Size/Size2;
+% CompressionRatio = Size/comp;
 set(handles.compression_ratio,'string',CompressionRatio)
 
 xd = waverec(C,L,wname);
-disp(size(xd))
-save('output1.mat','xd');
+audiowrite('output1.wav',xd,Fs);
+[y,fs] = audioread('output1.wav');
+fileinfo2 = dir('output1.wav');
+SIZE2 = fileinfo2.bytes;
+Size2 = SIZE2/1024;
 set(handles.compressed_size,'string',Size2)
 axes(handles.axes2)
-plot(xd)
+plot(y)
 set(handles.axes2,'XMinorTick','on')
 grid on
-
+CompressionRatio = Size/Size2;
+set(handles.compression_ratio,'string',CompressionRatio)
 
  
 
