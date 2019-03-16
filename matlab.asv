@@ -81,17 +81,15 @@ function compressionType_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns compressionType contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from compressionType
-path = get(handles.path, 'String');
-if(path~='')
-    type = get(handles.signalType, 'value');
-    domain = get(handles.transform, 'Value');
-    loss = get(handles.compressionType, 'Value');
-    [c, ratio] = compress(handles.signal, type, domain, loss, handles.Size);
-    set(handles.ratio, 'String', ratio);
-    axes(handles.axes4);
-    plot(c);
-    guidata(hObject, handles);
-end
+address = get(handles.path, 'Value');
+type = get(handles.signalType, 'value');
+domain = get(handles.signalType, 'Value');
+loss = get(handles.compressionType, 'Value');
+[c, ratio] = compress(address, type, domain, loss);
+set(handles.ratio, 'String', ratio);
+subplot(1,2,2);
+plot(c);
+guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
 function compressionType_CreateFcn(hObject, eventdata, handles)
@@ -112,35 +110,30 @@ function browse_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 [fileName,pathName] = uigetfile({'*.wav; *.mat; *.xlsx'}, 'Open');
-handles.address = fullfile(pathName,fileName);
-set(handles.path, 'String', handles.address);
+address = fullfile(pathName,fileName);
+set(handles.path, 'String', address);
 type = get(handles.signalType, 'value');
-domain = get(handles.transform, 'Value');
+domain = get(handles.signalType, 'Value');
 loss = get(handles.compressionType, 'Value');
 
-s=dir(handles.address);
-handles.Size=s.bytes;
-display(handles.Size);
-
-handles.signal=0;
+signal=0;
 switch type
     case 1
-        [handles.signal, fs] = audioread(handles.address);
+        [signal, fs] = audioread(address);
     case 4
-        handles.signal = xlsread(handles.address);
+        signal = xlsread(address);
     case 2
-        x=load(handles.address);
-        handles.signal = x.val';
+        x=load(address);
+        signal = x.val';
     case 3
-        x=load(handles.address);
-        handles.signal = x.ult_sig;
+        x=load(address);
+        signal = x.ult_sig;
 end
-axes(handles.axes3);
-plot(handles.signal);
+subplot(plot(signal);
 
-[c, ratio] = compress(handles.signal, type, domain, loss, handles.Size);
+[c, ratio] = compress(address, type, domain, loss);
 set(handles.ratio, 'String', ratio);
-axes(handles.axes4);
+subplot(1,2,2);
 plot(c);
 guidata(hObject, handles);
 
@@ -152,17 +145,15 @@ function transform_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns transform contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from transform
-path = get(handles.path, 'String');
-if(path~='')
-    type = get(handles.signalType, 'value');
-    domain = get(handles.transform, 'Value');
-    loss = get(handles.compressionType, 'Value');
-    [c, ratio] = compress(handles.signal, type, domain, loss, handles.Size);
-    set(handles.ratio, 'String', ratio);
-    axes(handles.axes4);
-    plot(c);
-    guidata(hObject, handles);
-end
+address = get(handles.path, 'Value');
+type = get(handles.signalType, 'value');
+domain = get(handles.signalType, 'Value');
+loss = get(handles.compressionType, 'Value');
+[c, ratio] = compress(address, type, domain, loss);
+set(handles.ratio, 'String', ratio);
+subplot(1,2,2);
+plot(c);
+guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
 function transform_CreateFcn(hObject, eventdata, handles)
@@ -208,17 +199,15 @@ function signalType_Callback(hObject, eventdata, handles)
 
 % Hints: contents = cellstr(get(hObject,'String')) returns signalType contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from signalType
-path = get(handles.path, 'String');
-if(path~='')
-    type = get(handles.signalType, 'value');
-    domain = get(handles.transform, 'Value');
-    loss = get(handles.compressionType, 'Value');
-    [c, ratio] = compress(handles.signal, type, domain, loss, handles.Size);
-    set(handles.ratio, 'String', ratio);
-    axes(handles.axes4);
-    plot(c);
-    guidata(hObject, handles);
-end
+address = get(handles.path, 'Value');
+type = get(handles.signalType, 'value');
+domain = get(handles.signalType, 'Value');
+loss = get(handles.compressionType, 'Value');
+[c, ratio] = compress(address, type, domain, loss);
+set(handles.ratio, 'String', ratio);
+subplot(1,2,2);
+plot(c);
+guidata(hObject, handles);
 
 % --- Executes during object creation, after setting all properties.
 function signalType_CreateFcn(hObject, eventdata, handles)
