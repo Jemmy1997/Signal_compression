@@ -82,7 +82,7 @@ function compressionType_Callback(hObject, eventdata, handles)
 % Hints: contents = cellstr(get(hObject,'String')) returns compressionType contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from compressionType
 path = get(handles.path, 'String');
-if(path~='')
+if(~strcmp(path,''))
     type = get(handles.signalType, 'value');
     domain = get(handles.transform, 'Value');
     loss = get(handles.compressionType, 'Value');
@@ -114,7 +114,7 @@ function browse_Callback(hObject, eventdata, handles)
 [fileName,pathName] = uigetfile({'*.wav; *.mat; *.xlsx'}, 'Open');
 handles.address = fullfile(pathName,fileName);
 set(handles.path, 'String', handles.address);
-type = get(handles.signalType, 'value');
+type = get(handles.signalType, 'Value');
 domain = get(handles.transform, 'Value');
 loss = get(handles.compressionType, 'Value');
 
@@ -130,7 +130,7 @@ switch type
         handles.signal = xlsread(handles.address);
     case 2
         x=load(handles.address);
-        handles.signal = x.val';
+        handles.signal = (x.val)';
     case 3
         x=load(handles.address);
         handles.signal = x.ult_sig;
@@ -153,7 +153,7 @@ function transform_Callback(hObject, eventdata, handles)
 % Hints: contents = cellstr(get(hObject,'String')) returns transform contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from transform
 path = get(handles.path, 'String');
-if(path~='')
+if(~strcmp(path,''))
     type = get(handles.signalType, 'value');
     domain = get(handles.transform, 'Value');
     loss = get(handles.compressionType, 'Value');
@@ -209,7 +209,7 @@ function signalType_Callback(hObject, eventdata, handles)
 % Hints: contents = cellstr(get(hObject,'String')) returns signalType contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from signalType
 path = get(handles.path, 'String');
-if(path~='')
+if(~strcmp(path,''))
     type = get(handles.signalType, 'value');
     domain = get(handles.transform, 'Value');
     loss = get(handles.compressionType, 'Value');

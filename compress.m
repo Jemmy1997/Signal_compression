@@ -20,7 +20,16 @@ function [compressedFile, ratio] = compress(signal, type, domain, loss, size)
 if(domain==1)
         [compressedFile, ratio] = CT(signal, size);
 else
-        [compressedFile, ratio] = wt(signal, type, domain, loss);
+    if(type==1)
+        signal = signal(:,1);
+    end
+    if(domain==2)
+        [compressedFile, ratio] = DB1(signal(:,1), type, size, loss);
+    elseif(domain==3)
+        [compressedFile, ratio] = HAAR(signal, type, size, loss);
+    elseif(domain==4)
+        [compressedFile, ratio] = sym6(signal, type, size, loss);
+    end
 end
 
 end
